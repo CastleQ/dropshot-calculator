@@ -1,0 +1,143 @@
+/* * [개선] CSS 변수(Custom Properties)를 정의하여 색상, 폰트, 디자인 요소를 중앙에서 관리합니다.
+ * 이렇게 하면 나중에 디자인 테마를 변경하기가 매우 쉬워집니다.
+ */
+:root {
+    --primary-color: #007bff;
+    --text-color: #333;
+    --text-color-light: #555;
+    --border-color: #ddd;
+    --background-color: #f4f7f9;
+    --surface-color: #fff;
+    --disabled-bg-color: #e9ecef;
+    --disabled-text-color: #adb5bd;
+    --border-radius-md: 8px;
+    --border-radius-lg: 12px;
+    --font-stack: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* * [개선] 모든 요소에 box-sizing: border-box;를 적용하여 레이아웃 계산을 일관되게 만듭니다.
+ */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* 전체 페이지의 기본 스타일을 정합니다. */
+body {
+    font-family: var(--font-stack); /* [개선] 시스템 친화적인 폰트 스택 적용 */
+    background-color: var(--background-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px; /* 모바일 화면에서 여백 확보 */
+}
+
+/* 계산기 전체를 감싸는 상자 스타일 */
+.calculator {
+    background-color: var(--surface-color);
+    padding: 30px;
+    border-radius: var(--border-radius-lg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 450px;
+}
+
+/* 제목 스타일 */
+h1 {
+    font-size: 24px;
+    color: var(--text-color);
+    text-align: center;
+    margin-top: 0; /* h1의 기본 마진 제거 */
+    margin-bottom: 30px;
+}
+
+/* 각 항목(A, B, C...)을 묶는 그룹 스타일 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* 이름표(label) 및 fieldset의 제목(legend) 스타일 */
+label, legend {
+    display: block;
+    font-weight: 600;
+    color: var(--text-color-light);
+    margin-bottom: 8px;
+}
+
+/* 드롭다운 메뉴와 입력칸 스타일 */
+select, input[type="number"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    font-size: 16px;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* [개선] 키보드 사용자를 위한 포커스 스타일 추가 (접근성 향상) */
+select:focus-visible, input[type="number"]:focus-visible {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+input[type="number"]::placeholder {
+    color: #aaa;
+}
+
+/* 고정된 텍스트 필드 스타일 (중개사, 최종 정산액) */
+.static-field {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    font-size: 16px;
+    background-color: #f0f0f0;
+    color: #777;
+}
+.static-field.disabled {
+    background-color: var(--disabled-bg-color);
+    color: var(--disabled-text-color);
+    cursor: not-allowed;
+}
+
+/* 최종 결과값 필드 스타일 */
+.result-field {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 18px;
+    min-height: 49px; /* 입력 필드와 높이를 맞춤 */
+    display: flex;
+    align-items: center;
+}
+
+/* 계약 형태 토글 스위치 디자인 */
+.toggle-switch {
+    display: flex;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+}
+.toggle-switch input[type="radio"] {
+    display: none;
+}
+.toggle-switch label {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    margin: 0;
+    cursor: pointer;
+    background-color: var(--surface-color);
+    color: var(--primary-color);
+    /* [개선] 실제로 변경되는 속성만 지정하여 성능을 최적화합니다. */
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+/* 선택됐을 때의 스타일 */
+.toggle-switch input[type="radio"]:checked + label {
+    background-color: var(--primary-color);
+    color: var(--surface-color);
+    font-weight: bold;
+}
